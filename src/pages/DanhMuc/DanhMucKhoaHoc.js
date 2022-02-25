@@ -3,6 +3,30 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { layDanhSachKhoaHoc } from "../../Services";
 class DanhMucKhoaHoc extends Component {
+  layDanhSachKhoaHocApi = () =>
+    layDanhSachKhoaHoc
+      .layKhoaHocTheoDanhMuc(this.props.match.params.id)
+      .then((res) => {
+        this.props.dispatch({
+          type: "LayKhoaHocTheoDanhMuc",
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+  componentDidMount() {
+    this.layDanhSachKhoaHocApi();
+  }
+
+  componentDidUpdate(prevProps) {
+    // nếu idDanhMuc mới nhấn khác với idDanhMuc cũ thì mới fetch lại data
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.layDanhSachKhoaHocApi();
+    }
+  }
+
   render() {
     return (
       <div>
@@ -74,19 +98,6 @@ class DanhMucKhoaHoc extends Component {
         </section>
       </div>
     );
-  }
-  componentDidMount() {
-    layDanhSachKhoaHoc
-      .layKhoaHocTheoDanhMuc(this.props.match.params.id)
-      .then((res) => {
-        this.props.dispatch({
-          type: "LayKhoaHocTheoDanhMuc",
-          payload: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 }
 const mapStateToProps = (state) => {
