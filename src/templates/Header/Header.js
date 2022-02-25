@@ -42,10 +42,9 @@ class Header extends Component {
                     return (
                       <Link
                         key={index}
-                        className="dropdown-item"
+                        className="dropdown-item nav-link drop hover:text-black"
                         to={`/danhmuc/${item.maDanhMuc}`}
                         activeClassName="text-black"
-                        className="nav-link drop hover:text-black"
                       >
                         {item.tenDanhMuc}
                       </Link>
